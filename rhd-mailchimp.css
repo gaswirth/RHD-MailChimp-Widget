@@ -1,0 +1,67 @@
+/**
+ * Basic stylesheet for the RHD MailChimp plugin by Roundhouse Designs
+ **/
+ 
+#mailchimp-widget {
+	height: 140px;
+	position: relative;
+}
+
+#mailchimp-widget-content {
+	font-weight: normal;
+}
+
+#mailchimp-widget-content .subscribe {
+	margin: 4px 0;
+}
+
+#mc_subscribe input {
+	float: left;
+}
+
+#mc_subscribe input[type="text"],
+#mc_subscribe input[type="email"] {
+	width: 208px;
+	margin: 4px auto;
+	padding: 5px;
+	background: #fff;
+	border-radius: 2px;
+	font-size: .9em;
+	border: 1px solid #660000;
+}
+
+#mc_subscribe input#submit {
+	width: 65px;
+	height: 29px;
+	text-align: center;
+	background: #660000;
+	color: #fff;
+	border: none;
+	padding: 5px;
+	font-size: .9em;
+	margin-left: 10px;
+	position: relative;
+	top: 5px;
+	cursor: pointer;
+	outline: none;
+}
+
+#mc_thanks,
+#mc_error,
+.ajax-loader {
+	display: none;
+}
+
+#mc_thanks {
+	width: 100%;
+	position: absolute;
+	font-size: 1.2em;
+	top: 0;
+	text-align: center;
+}
+
+.ajax-loader {
+	position: relative;
+	top: 45px;
+	margin: 0 auto;
+}
