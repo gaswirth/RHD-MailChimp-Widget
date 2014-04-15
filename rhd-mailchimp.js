@@ -43,6 +43,6 @@
 	mcAction = $("#mc_subscribe").attr("action");
 	$("#mc_subscribe").attr("action", "");
 		
-	$("#mc_subscribe #submit").click( mcProcess );
+	$("#mc_subscribe #mc-submit").click( mcProcess );
 	
 })
