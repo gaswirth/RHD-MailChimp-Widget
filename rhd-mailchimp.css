@@ -30,7 +30,7 @@
 	border: 1px solid #660000;
 }
 
-#mc_subscribe input#mc-submit {
+#mc_subscribe input#mc_submit {
 	width: 65px;
 	height: 29px;
 	text-align: center;
