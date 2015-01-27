@@ -2,16 +2,16 @@
  * Basic stylesheet for the RHD MailChimp plugin by Roundhouse Designs
  **/
  
-#mailchimp-widget {
+#rhd-mailchimp-widget {
 	height: 140px;
 	position: relative;
 }
 
-#mailchimp-widget-content {
+#rhd-mailchimp-widget-content {
 	font-weight: normal;
 }
 
-#mailchimp-widget-content .subscribe {
+#rhd-mailchimp-widget-content .subscribe {
 	margin: 4px 0;
 }
 
@@ -57,10 +57,4 @@
 	position: absolute;
 	top: 0;
 	text-align: center;
-}
-
-.ajax-loader {
-	position: relative;
-	top: 45px;
-	margin: 0 auto;
 }
