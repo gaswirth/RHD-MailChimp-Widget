@@ -1,5 +1,5 @@
 /**
- * Javascript/jQuery Scriptagementation for the custom theme for The Paper Mama. By Roundhouse Designs.
+ * RHD MailChimp JS Helper
  **/
 (function($) {
 	
@@ -38,11 +38,11 @@
 			}
 		});
 		return false;
-	}
+	};
 	
 	mcAction = $("#mc_subscribe").attr("action");
 	$("#mc_subscribe").attr("action", "");
 		
 	$("#mc_subscribe #mc_submit").click( mcProcess );
 	
-})
+})(jQuery);
