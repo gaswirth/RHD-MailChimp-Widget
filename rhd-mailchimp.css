@@ -11,7 +11,11 @@
 }
 
 #rhd-mailchimp-widget-content .subscribe {
-	margin: 4px 0;
+	margin: 0.5em 0;
+}
+
+#mc_subscribe input {
+	box-sizing: border-box;
 }
 
 #mc_subscribe input[type="text"],
