@@ -40,7 +40,7 @@ class rhd_mailchimp extends WP_Widget {
 				
 				<p class="subscribe"><?php echo $text; ?></p>
 				
-				<form id="mc_subscribe" class="clearfix" action="<?php echo plugin_dir_url(__FILE__); ?>/lib/rhd-mc-subscribe.php" method="post">
+				<form id="mc_subscribe" action="<?php echo plugin_dir_url(__FILE__); ?>/lib/rhd-mc-subscribe.php" method="post">
 					<input id="fname" type="text" name="fname" placeholder="first">
 					<input id="lname" type="text" name="lname" placeholder="last">
 					<input id="email" type="email" name="email" placeholder="email">
