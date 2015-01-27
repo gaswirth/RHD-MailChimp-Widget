@@ -44,7 +44,7 @@ class rhd_mailchimp extends WP_Widget {
 					<input id="fname" type="text" name="fname" placeholder="first">
 					<input id="lname" type="text" name="lname" placeholder="last">
 					<input id="email" type="email" name="email" placeholder="email">
-					<input id="mc-submit" type="submit" name="mc-submit" value="join">
+					<input id="mc_submit" type="submit" name="mc_submit" value="join">
 				</form>
 			</div><!-- #mailchimp-widget-content -->
 			<div id="mc_thanks">
