@@ -6,8 +6,6 @@
  * Author URI: https://roundhouse-designs.com
  * Version: 1.0
  **/
-
-define( "PLUGIN_DIR", plugin_dir_url( __FILE__ ) );
  
 class rhd_mailchimp extends WP_Widget {
 	public function __construct() {
@@ -26,7 +24,7 @@ class rhd_mailchimp extends WP_Widget {
 	public function widget( $args, $instance ) {
 		extract( $args );
 		
-		wp_enqueue_style( 'rhd-mailchimp-css', PLUGIN_DIR . '/mailchimp.css' );
+		wp_enqueue_style( 'rhd-mailchimp-css', plugin_dir_url( __FILE__ ) . '/rhd-mailchimp.css' );
 		
 		$title = apply_filters('widget_title', $instance['title']);
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
