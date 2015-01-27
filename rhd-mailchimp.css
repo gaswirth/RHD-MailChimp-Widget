@@ -14,19 +14,15 @@
 	margin: 4px 0;
 }
 
-#mc_subscribe input {
-	float: left;
-}
-
 #mc_subscribe input[type="text"],
 #mc_subscribe input[type="email"] {
-	width: 208px;
-	margin: 4px auto;
-	padding: 5px;
+	width: 13em;
+	margin: 0.25em auto;
+	padding: 0.25em;
 	background: #fff;
-	border-radius: 2px;
-	font-size: .9em;
+	font-size: 1;
 	border: 1px solid #660000;
+	border-radius: 2px;
 }
 
 #mc_subscribe input#mc_submit {
