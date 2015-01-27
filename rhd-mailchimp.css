@@ -43,17 +43,13 @@
 	outline: none;
 }
 
-#mc_thanks,
-#mc_error,
-.ajax-loader {
+#mc_thanks {
 	display: none;
 }
 
 #mc_thanks {
 	width: 100%;
-	position: absolute;
-	top: 0;
-	text-align: center;
+	position: relative;
 }
 
 /*
