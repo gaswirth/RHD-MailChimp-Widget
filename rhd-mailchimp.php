@@ -6,6 +6,8 @@
  * Author URI: https://roundhouse-designs.com
  * Version: 1.0
  **/
+
+define( "PLUGIN_DIR", plugin_dir_url( __FILE__ ) );
  
 class rhd_mailchimp extends WP_Widget {
 	public function __construct() {
@@ -24,6 +26,8 @@ class rhd_mailchimp extends WP_Widget {
 	public function widget( $args, $instance ) {
 		extract( $args );
 		
+		wp_enqueue_style( 'rhd-mailchimp-css', PLUGIN_DIR . '/mailchimp.css' );
+		
 		$title = apply_filters('widget_title', $instance['title']);
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
 		
@@ -33,11 +37,9 @@ class rhd_mailchimp extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		?>
 		
-		<aside id="mailchimp-widget">
-			<div id="mailchimp-widget-content">
+		<aside id="rhd-mailchimp-widget">
+			<div id="rhd-mailchimp-widget-content">
 				
-				<!-- Ajax Loader Image (Replace if necessary) -->
-				<img class="ajax-loader" src="<?php echo plugin_dir_url(__FILE__); ?>/img/ajax-loader.gif" alt="One moment, please">
 				<p class="subscribe"><?php echo $text; ?></p>
 				
 				<form id="mc_subscribe" action="<?php echo plugin_dir_url(__FILE__); ?>/lib/rhd-mc-subscribe.php" method="post">
