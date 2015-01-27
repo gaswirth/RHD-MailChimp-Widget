@@ -2,8 +2,8 @@
 /**
  * Plugin Name: RHD MailChimp Widget
  * Author: Roundhouse Designs
- * Description: A simple pre-configured MailChimp subscribe form. This widget has no user-configurable options. Minimal stylesheet included for basic functionality, but some manual styling is necessary. AA batteries not included.
- * Author URI: http://roundhouse-designs.com
+ * Description: A simple pre-configured MailChimp list signup form.
+ * Author URI: https://roundhouse-designs.com
  * Version: 1.0
  **/
 
