@@ -6,12 +6,11 @@
  * Author URI: https://roundhouse-designs.com
  * Version: 1.0
  **/
-
  
-class RHD_MC_Widget extends WP_Widget {
+class rhd_mailchimp extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
-	 		'RHD_MC_Widget', // Base ID
+	 		'rhd_mailchimp', // Base ID
 			'RHD MailChimp Subscribe Widget', // Name
 			array( 'description' => __( 'Pre-configured MailChimp subscribe widget.', 'roundhouse-designs' ), ) // Args
 		);
@@ -74,3 +73,8 @@ class RHD_MC_Widget extends WP_Widget {
 	<?php
 	}
 }
+
+function rhd_register_mailchimp_widget() {
+    register_widget('rhd_mailchimp');
+}
+add_action('widgets_init', 'rhd_register_mailchimp_widget');
