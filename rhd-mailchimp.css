@@ -3,7 +3,6 @@
  **/
  
 #rhd-mailchimp-widget {
-	height: 140px;
 	position: relative;
 }
 
@@ -31,8 +30,6 @@
 }
 
 #mc_subscribe input#mc_submit {
-	width: 65px;
-	height: 29px;
 	text-align: center;
 	background: #660000;
 	color: #fff;
@@ -57,4 +54,26 @@
 	position: absolute;
 	top: 0;
 	text-align: center;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
 }
