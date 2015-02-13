@@ -1,7 +1,7 @@
 /**
  * Basic stylesheet for the RHD MailChimp plugin by Roundhouse Designs
  **/
- 
+
 #rhd-mailchimp-widget {
 	position: relative;
 }
@@ -12,6 +12,7 @@
 
 #rhd-mailchimp-widget-content .subscribe {
 	margin: 0.5em 0;
+	text-align: center;
 }
 
 #mc_subscribe input {
