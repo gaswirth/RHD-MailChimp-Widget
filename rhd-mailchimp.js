@@ -2,15 +2,23 @@
  * RHD MailChimp JS Helper
  **/
 (function($) {
-	
+
 	//MailChimp process handler
 	var mcAction;
-	
+
 	var mcProcess = function mailChimpProcess() {
 		var email = $("#mc_subscribe #email").val();
-		
-		var dataString = "fname="+fname+"&lname="+lname+"&email="+email;
-		
+		var fname = $("#mc_subscribe #fname").val();
+		var lname = $("#mc_subscribe #lname").val();
+
+		var datastring = "email="+email;
+		if ( fname ) {
+			datastring += "&fname="+fname;
+		}
+		if ( lname ) {
+			datastring += "&lname="+lname;
+		}
+
 		$.ajax({
 			type: "POST",
 			url:  mcAction,
@@ -39,10 +47,10 @@
 		});
 		return false;
 	};
-	
+
 	mcAction = $("#mc_subscribe").attr("action");
 	$("#mc_subscribe").attr("action", "");
-		
+
 	$("#mc_subscribe #mc_submit").click( mcProcess );
-	
+
 })(jQuery);
