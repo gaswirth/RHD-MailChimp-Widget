@@ -6,13 +6,13 @@
  * Author URI: https://roundhouse-designs.com
  * Version: 1.0
  **/
- 
+
 class rhd_mailchimp extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 	 		'rhd_mailchimp', // Base ID
 			'RHD MailChimp Subscribe Widget', // Name
-			array( 'description' => __( 'Pre-configured MailChimp subscribe widget.', 'roundhouse-designs' ), ) // Args
+			array( 'description' => __( 'Pre-configured MailChimp subscribe widget.', 'rhd' ), ) // Args
 		);
 	}
 
@@ -20,27 +20,27 @@ class rhd_mailchimp extends WP_Widget {
 		// processes widget options to be saved
 		return $new_instance;
 	}
-    
+
 	public function widget( $args, $instance ) {
 		extract( $args );
-		
+
 		wp_enqueue_script( 'rhd-mailchimp-js', plugin_dir_url( __FILE__ ) . '/rhd-mailchimp.js', array( 'jquery' ) );
 		wp_enqueue_style( 'rhd-mailchimp-css', plugin_dir_url( __FILE__ ) . '/rhd-mailchimp.css' );
-		
+
 		$title = apply_filters('widget_title', $instance['title']);
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
-		
+
 		echo $before_widget;
-		
+
 		if ( $title )
 			echo $before_title . $title . $after_title;
 		?>
-		
+
 		<aside id="rhd-mailchimp-widget">
 			<div id="rhd-mailchimp-widget-content">
-				
+
 				<p class="subscribe"><?php echo $text; ?></p>
-				
+
 				<form id="mc_subscribe" action="<?php echo plugin_dir_url(__FILE__); ?>/lib/rhd-mc-subscribe.php" method="post">
 					<input id="fname" type="text" name="fname" placeholder="first">
 					<input id="lname" type="text" name="lname" placeholder="last">
@@ -54,23 +54,23 @@ class rhd_mailchimp extends WP_Widget {
 				A confirmation email should be arriving soon.</p>
 			</div><!-- #mc_thanks -->
 		</aside><!-- #mailchimp-widget -->
-	
+
 	<?php echo $after_widget;
-	
+
 	}
-	
+
 	public function form($instance) {
 		// outputs the options form on admin
 		$args['title'] = esc_attr($instance['title']);
 		$text = esc_textarea($instance['text']);
 		?>
-		
+
 		<p><label for="<?php echo $this->get_field_id('title'); ?>">Widget Title (optional): </label><input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $args['title']; ?>" ></p>
 
 		<p><label for="<?php echo $this->get_field_id('text'); ?>">Text to display (optional):</label><textarea class="widefat" rows="8" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo $text; ?></textarea></p>
 
 		<p><input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" type="checkbox" <?php checked(isset($instance['filter']) ? $instance['filter'] : 0); ?> />&nbsp;<label for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label></p>
-	
+
 	<?php
 	}
 }
