@@ -11,12 +11,12 @@
 		var fname = $("#mc_subscribe #fname").val();
 		var lname = $("#mc_subscribe #lname").val();
 
-		var datastring = "email="+email;
+		var dataString = "email="+email;
 		if ( fname ) {
-			datastring += "&fname="+fname;
+			dataString += "&fname="+fname;
 		}
 		if ( lname ) {
-			datastring += "&lname="+lname;
+			dataString += "&lname="+lname;
 		}
 
 		$.ajax({
