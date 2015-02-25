@@ -12,21 +12,23 @@
 
 
 function mailChimpProcess( button ) {
-	var widgetID = "-" + jQuery(button).siblings(".rhd_form_mc_id").val();
+	var instance = "-" + jQuery(button).siblings(".rhd_form_mc_id").val();
 
-	var email = jQuery("#mc_subscribe"+widgetID+" .email" ).val();
-	var dataString = "email="+email;
+	var fname = jQuery("#rhd_mc_fname"+instance ).val();
+	var lname = jQuery("#rhd_mc_lname"+instance ).val();
+	var email = jQuery("#rhd_mc_email"+instance ).val();
+	var dataString = "fname="+fname+"&lname="+lname+"&email="+email;
 
 	jQuery.ajax({
 		type: "POST",
 		url:  mcAction,
 		data: dataString,
 		error: function() {
-			jQuery("#mc_error"+widgetID).fadeIn('fast');
+			jQuery("#mc_error"+instance).fadeIn('fast');
 		},
 		success: function() {
-			jQuery("#mc_subscribe"+widgetID+" .email").animate({ opacity: 0 });
-			jQuery("#mc_thanks"+widgetID).fadeIn();
+			jQuery("#mc_subscribe"+instance+" .email").animate({ opacity: 0 });
+			jQuery("#mc_thanks"+instance).fadeIn();
 		}
 	});
 }
