@@ -7,10 +7,12 @@
  * Version: 1.0
  **/
 
-class rhd_mailchimp extends WP_Widget {
+define( 'RHD_MC_DIR', plugin_dir_url(__FILE__) );
+
+class RHD_Mailchimp_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
-	 		'rhd_mailchimp', // Base ID
+	 		'rhd_mailchimp_widget', // Base ID
 			'RHD MailChimp Subscribe Widget', // Name
 			array( 'description' => __( 'Pre-configured MailChimp subscribe widget.', 'rhd' ), ) // Args
 		);
@@ -24,8 +26,8 @@ class rhd_mailchimp extends WP_Widget {
 	public function widget( $args, $instance ) {
 		extract( $args );
 
-		wp_enqueue_script( 'rhd-mailchimp-js', plugin_dir_url( __FILE__ ) . '/rhd-mailchimp.js', array( 'jquery' ) );
-		wp_enqueue_style( 'rhd-mailchimp-css', plugin_dir_url( __FILE__ ) . '/rhd-mailchimp.css' );
+		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . '/rhd-mailchimp.js', array( 'jquery' ) );
+		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . '/rhd-mailchimp.css' );
 
 		$title = apply_filters('widget_title', $instance['title']);
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
@@ -76,6 +78,6 @@ class rhd_mailchimp extends WP_Widget {
 }
 
 function rhd_register_mailchimp_widget() {
-    register_widget('rhd_mailchimp');
+    register_widget('RHD_Mailchimp_Widget');
 }
 add_action('widgets_init', 'rhd_register_mailchimp_widget');
