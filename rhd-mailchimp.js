@@ -3,8 +3,8 @@
  **/
 (function($) {
 	var mcAction = $("rhd_mc_subscribe-1").attr("action");
-	$(".mc_subscribe").attr("action", "");
-	$(".mc_submit").click( function(e){
+	$(".rhd_mc_subscribe").attr("action", "");
+	$(".rhd_mc_submit").click( function(e){
 		e.preventDefault();
 		mailChimpProcess($(this));
 	});
