@@ -17,6 +17,7 @@
 
 .rhd_mc_subscribe input {
 	box-sizing: border-box;
+	border: none;
 }
 
 .rhd_mc_subscribe .rhd_mc_fname,
