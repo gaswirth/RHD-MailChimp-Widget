@@ -4,7 +4,7 @@
  * Author: Roundhouse Designs
  * Description: A simple pre-configured MailChimp list signup form.
  * Author URI: https://roundhouse-designs.com
- * Version: 1.0
+ * Version: 1.1
  **/
 
 define( 'RHD_MC_DIR', plugin_dir_url(__FILE__) );
@@ -18,7 +18,7 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 		);
 	}
 
-	public function update($new_instance, $old_instance) {
+	public function update( $new_instance, $old_instance ) {
 		// processes widget options to be saved
 		return $new_instance;
 	}
@@ -29,55 +29,66 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . '/rhd-mailchimp.js', array( 'jquery' ) );
 		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . '/rhd-mailchimp.css' );
 
-		$title = apply_filters('widget_title', $instance['title']);
+		$title = apply_filters( 'widget_title', $instance['title'] );
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
+		$button = $button || "Submit";
 
 		echo $before_widget;
 
 		if ( $title )
 			echo $before_title . $title . $after_title;
+
+		$widget_id = substr( $this->id, -1, 1 );
 		?>
 
-		<aside id="rhd-mailchimp-widget">
-			<div id="rhd-mailchimp-widget-content">
-
-				<p class="subscribe"><?php echo $text; ?></p>
-
-				<form id="mc_subscribe" action="<?php echo plugin_dir_url(__FILE__); ?>/lib/rhd-mc-subscribe.php" method="post">
-					<input id="fname" type="text" name="fname" placeholder="first">
-					<input id="lname" type="text" name="lname" placeholder="last">
-					<input id="email" type="email" name="email" placeholder="email">
-					<input id="mc_submit" type="submit" name="mc_submit" value="join">
-				</form>
-			</div><!-- #mailchimp-widget-content -->
-			<div id="mc_thanks">
-				<p class="thanks-text">Thanks for subscribing!<br>
-				<br>
-				A confirmation email should be arriving soon.</p>
-			</div><!-- #mc_thanks -->
-		</aside><!-- #mailchimp-widget -->
+		<div id="<?php echo $this->id; ?>" class="rhd_mailchimp clearfix">
+			<p class="subscribe"><?php echo $subscribe; ?></p>
+			<form id="rhd_mc_subscribe-<?php echo $widget_id; ?>" class="rhd_mc_subscribe clearfix" action="<?php echo RHD_THEME_DIR; ?>/lib/mc/mc_subscribe.php" method="post">
+				<input id="rhd_mc_fname-<?php echo $widget_id; ?>" class="rhd_mc_fname" type="text" name="fname" placeholder="first">
+				<input id="rhd_mc_lname-<?php echo $widget_id; ?>" class="rhd_mc_lname" type="text" name="lname" placeholder="last">
+				<input id="rhd_mc_email-<?php echo $widget_id; ?>" class="rhd_mc_email" type="email" name="email" placeholder="subscribe">
+				<input class="rhd_mc_form_id" type="hidden" value="<?php echo $widget_id; ?>">
+				<input id="rhd_mc_submit-<?php echo $widget_id; ?>" class="rhd_mc_submit" type="submit" value="<?php echo $button; ?>" name="submit-<?php echo $widget_id; ?>">
+			</form>
+			<div id="rhd_mc_thanks-<?php echo $widget_id; ?>" class="rhd_mc_thanks">
+				<p>Subscribed!</p>
+			</div><!-- #rhd_mc_thanks-<?php echo $widget_id; ?> -->
+			<div id="rhd_mc_error-<?php echo $widget_id; ?>" class="rhd_mc_error">
+				Please enter a valid email address.
+			</div><!-- #rhd_mc_error-<?php echo $widget_id; ?> -->
+		</div><!-- <?php echo $this->id; ?> -->
 
 	<?php echo $after_widget;
 
 	}
 
-	public function form($instance) {
+	public function form( $instance ) {
 		// outputs the options form on admin
-		$args['title'] = esc_attr($instance['title']);
-		$text = esc_textarea($instance['text']);
+		$title = esc_attr( $instance['title'] );
+		$text = esc_textarea( $instance['text'] );
+		$button = esc_attr( $instance['button'] );
 		?>
 
-		<p><label for="<?php echo $this->get_field_id('title'); ?>">Widget Title (optional): </label><input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $args['title']; ?>" ></p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Widget Title <em>(optional)</em>: </label>
+			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" >
+		</p>
 
-		<p><label for="<?php echo $this->get_field_id('text'); ?>">Text to display (optional):</label><textarea class="widefat" rows="8" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo $text; ?></textarea></p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'text' ); ?>">Text to display <em>(optional)</em>:</label>
+			<textarea class="widefat" rows="5" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo $text; ?></textarea>
+		</p>
 
-		<p><input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" type="checkbox" <?php checked(isset($instance['filter']) ? $instance['filter'] : 0); ?> />&nbsp;<label for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label></p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'button'); ?>">Button text <em>(Default: Submit)</em>:</label>
+			<input id="<?php echo $this->get_field_id('button'); ?>" name="<?php echo $this->get_field_name( 'button' ); ?>" type="text" value="<?php echo $button; ?>" >
+		</p>
 
 	<?php
 	}
 }
 
 function rhd_register_mailchimp_widget() {
-    register_widget('RHD_Mailchimp_Widget');
+    register_widget( 'RHD_Mailchimp_Widget' );
 }
-add_action('widgets_init', 'rhd_register_mailchimp_widget');
+add_action( 'widgets_init', 'rhd_register_mailchimp_widget' );

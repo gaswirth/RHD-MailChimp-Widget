@@ -15,22 +15,23 @@
 	text-align: center;
 }
 
-#mc_subscribe input {
+.rhd_mc_subscribe input {
 	box-sizing: border-box;
 }
 
-#mc_subscribe input[type="text"],
-#mc_subscribe input[type="email"] {
+.rhd_mc_subscribe .rhd_mc_fname,
+.rhd_mc_subscribe .rhd_mc_lname,
+.rhd_mc_subscribe .rhd_mc_email {
 	width: 13em;
 	margin: 0.25em auto;
 	padding: 0.25em;
 	background: #fff;
-	font-size: 1;
+	font-size: 1em;
 	border: 1px solid #660000;
 	border-radius: 2px;
 }
 
-#mc_subscribe input#mc_submit {
+.rhd_mc_subscribe input.rhd_mc_submit {
 	text-align: center;
 	background: #660000;
 	color: #fff;
@@ -44,25 +45,17 @@
 	outline: none;
 }
 
-#mc_thanks {
+.rhd_mc_thanks {
 	display: none;
 }
 
-#mc_thanks {
+.rhd_mc_thanks {
 	width: 100%;
 	position: relative;
 }
 
 /*
  * Clearfix: contain floats
- *
- * For modern browsers
- * 1. The space content is one way to avoid an Opera bug when the
- *    `contenteditable` attribute is included anywhere else in the document.
- *    Otherwise it causes space to appear at the top and bottom of elements
- *    that receive the `clearfix` class.
- * 2. The use of `table` rather than `block` is only necessary if using
- *    `:before` to contain the top-margins of child elements.
  */
 
 .clearfix:before,

@@ -2,55 +2,31 @@
  * RHD MailChimp JS Helper
  **/
 (function($) {
-
-	//MailChimp process handler
-	var mcAction;
-
-	var mcProcess = function mailChimpProcess() {
-		var email = $("#mc_subscribe #email").val();
-		var fname = $("#mc_subscribe #fname").val();
-		var lname = $("#mc_subscribe #lname").val();
-
-		var dataString = "email="+email;
-		if ( fname ) {
-			dataString += "&fname="+fname;
-		}
-		if ( lname ) {
-			dataString += "&lname="+lname;
-		}
-
-		$.ajax({
-			type: "POST",
-			url:  mcAction,
-			data: dataString,
-			beforeSend: function() {
-				$("#mc_error").fadeOut();
-				$("#mc_subscribe, p.subscribe").animate({
-					opacity: 0
-				}).delay(600);
-				$("#mailchimp-widget .ajax-loader").fadeIn('fast');
-			},
-			complete: function() {
-				$("#mailchimp-widget .ajax-loader").fadeOut('fast');
-				$("#mc_subscribe #email").val('');
-			},
-			error: function() {
-				$("#mc_subscribe").animate({
-					opacity: 1
-				});
-				$("#mc_error").fadeIn('fast');
-			},
-			success: function() {
-				$("#mc_thanks").fadeIn().delay(4000).fadeOut();
-				$("#mc_subscribe, p.subscribe").hide().delay(4500).css('opacity',1).fadeIn();
-			}
-		});
-		return false;
-	};
-
-	mcAction = $("#mc_subscribe").attr("action");
-	$("#mc_subscribe").attr("action", "");
-
-	$("#mc_subscribe #mc_submit").click( mcProcess );
-
+	var mcAction = $("rhd_mc_subscribe-1").attr("action");
+	$(".mc_subscribe").attr("action", "");
+	$(".mc_submit").click( function(e){
+		e.preventDefault();
+		mailChimpProcess($(this));
+	});
 })(jQuery);
+
+
+function mailChimpProcess( button ) {
+	var widgetID = "-" + jQuery(button).siblings(".rhd_form_mc_id").val();
+
+	var email = jQuery("#mc_subscribe"+widgetID+" .email" ).val();
+	var dataString = "email="+email;
+
+	jQuery.ajax({
+		type: "POST",
+		url:  mcAction,
+		data: dataString,
+		error: function() {
+			jQuery("#mc_error"+widgetID).fadeIn('fast');
+		},
+		success: function() {
+			jQuery("#mc_subscribe"+widgetID+" .email").animate({ opacity: 0 });
+			jQuery("#mc_thanks"+widgetID).fadeIn();
+		}
+	});
+}
