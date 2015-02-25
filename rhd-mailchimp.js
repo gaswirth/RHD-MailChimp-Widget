@@ -24,7 +24,7 @@ function mailChimpProcess( button ) {
 		url:  mcAction,
 		data: dataString,
 		error: function() {
-			jQuery("#mc_error"+instance).fadeIn('fast');
+			jQuery("#rhd_mc_error"+instance).fadeIn('fast');
 		},
 		success: function() {
 			jQuery("#rhd_mc_subscribe"+instance+" .email").animate({ opacity: 0 });
