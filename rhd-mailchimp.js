@@ -27,8 +27,8 @@ function mailChimpProcess( button ) {
 			jQuery("#mc_error"+instance).fadeIn('fast');
 		},
 		success: function() {
-			jQuery("#mc_subscribe"+instance+" .email").animate({ opacity: 0 });
-			jQuery("#mc_thanks"+instance).fadeIn();
+			jQuery("#rhd_mc_subscribe"+instance+" .email").animate({ opacity: 0 });
+			jQuery("#rhd_mc_thanks"+instance).fadeIn();
 		}
 	});
 }
