@@ -44,7 +44,8 @@
 	outline: none;
 }
 
-.rhd_mc_thanks {
+.rhd_mc_thanks,
+.rhd_mc_error {
 	display: none;
 }
 
@@ -52,6 +53,7 @@
 	width: 100%;
 	position: relative;
 }
+
 
 /*
  * Clearfix: contain floats
