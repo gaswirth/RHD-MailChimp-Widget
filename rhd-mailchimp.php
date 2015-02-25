@@ -31,7 +31,7 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', $instance['title'] );
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
-		$button = $button || "Submit";
+		$button = $instance['button'] || "Submit";
 
 		echo $before_widget;
 
