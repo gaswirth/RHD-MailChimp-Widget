@@ -97,16 +97,12 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 
 		<h3>Optional Fields:</h3>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'fname' ); ?>">
-				<?php _e( 'First Name' ); ?>
-				<input id="<?php echo $this->get_field_id( 'fname' ); ?>" name="<?php echo $this->get_field_name( 'fname' ); ?>" type="checkbox" value="yes" <?php if( $args['fname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
-			</label>
+			<input id="<?php echo $this->get_field_id( 'fname' ); ?>" name="<?php echo $this->get_field_name( 'fname' ); ?>" type="checkbox" value="yes" <?php if( $args['fname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
+			<label for="<?php echo $this->get_field_id( 'fname' ); ?>"><?php _e( 'First Name' ); ?></label>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'style_vertical' ); ?>">
-				<?php _e( 'Last Name:'); ?>
-				<input id="<?php echo $this->get_field_id( 'lname' ); ?>" name="<?php echo $this->get_field_name( 'lname' ); ?>" type="checkbox" value="yes" <?php if( $args['lname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
-			</label>
+			<input id="<?php echo $this->get_field_id( 'lname' ); ?>" name="<?php echo $this->get_field_name( 'lname' ); ?>" type="checkbox" value="yes" <?php if( $args['lname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
+			<label for="<?php echo $this->get_field_id( 'style_vertical' ); ?>"><?php _e( 'Last Name:'); ?></label>
 		</p>
 
 	<?php
