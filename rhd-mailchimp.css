@@ -20,7 +20,7 @@
 	padding: 0.25em;
 	background: #fff;
 	font-size: 1em;
-	border-radius: 1px;
+	border-radius: 0.0625em;
 }
 
 .rhd_mc_submit {
@@ -28,9 +28,9 @@
 	background: #660000;
 	color: #fff;
 	border: none;
-	padding: 5px;
+	padding: 0.3125em;
 	font-size: .9em;
-	margin-left: 10px;
+	margin-left: 0.625em;
 	position: relative;
 	cursor: pointer;
 	outline: none;
