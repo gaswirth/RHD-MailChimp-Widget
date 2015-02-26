@@ -32,6 +32,8 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 		$args['title'] = apply_filters( 'widget_title', $instance['title'] );
 		$args['text'] = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
 		$args['button'] = ( !empty( $instance['button'] ) ) ? $instance['button'] : "Submit";
+		$args['fname'] = ( $instance['fname'] == 'yes' ) ? true : false;
+		$args['lname'] = ( $instance['lname'] == 'yes' ) ? true : false;
 
 		echo $before_widget;
 
@@ -44,8 +46,14 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 		<div id="rhd_mc_widget-<?php echo $widget_id; ?>" class="rhd_mailchimp clearfix">
 			<p class="rhd_mc_text"><?php echo $args['text']; ?></p>
 			<form id="rhd_mc_subscribe-<?php echo $widget_id; ?>" class="rhd_mc_subscribe clearfix" action="<?php echo RHD_THEME_DIR; ?>/lib/mc/mc_subscribe.php" method="post">
-				<input id="rhd_mc_fname-<?php echo $widget_id; ?>" class="rhd_mc_fname" type="text" name="fname" placeholder="first">
-				<input id="rhd_mc_lname-<?php echo $widget_id; ?>" class="rhd_mc_lname" type="text" name="lname" placeholder="last">
+				<?php if ( $args['fname'] ) : ?>
+					<input id="rhd_mc_fname-<?php echo $widget_id; ?>" class="rhd_mc_fname" type="text" name="fname" placeholder="first">
+				<?php endif; ?>
+
+				<?php if ( $args['lname'] ) : ?>
+					<input id="rhd_mc_lname-<?php echo $widget_id; ?>" class="rhd_mc_lname" type="text" name="lname" placeholder="last">
+				<?php endif; ?>
+
 				<input id="rhd_mc_email-<?php echo $widget_id; ?>" class="rhd_mc_email" type="email" name="email" placeholder="email">
 				<input class="rhd_mc_form_id" type="hidden" value="<?php echo $widget_id; ?>">
 				<input id="rhd_mc_submit-<?php echo $widget_id; ?>" class="rhd_mc_submit" type="submit" value="<?php echo $args['button']; ?>" name="submit-<?php echo $widget_id; ?>">
@@ -67,21 +75,36 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 		$args['title'] = esc_attr( $instance['title'] );
 		$args['text'] = esc_textarea( $instance['text'] );
 		$args['button'] = esc_attr( $instance['button'] );
+		$args['fname'] = esc_attr( $instance['fname'] );
+		$args['lname'] = esc_attr( $instance['lname'] );
 		?>
 
+		<h3>Widget Options:</h3>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Widget Title <em>(optional)</em>: </label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php  _e( 'Widget Title (optional): ' ); ?></label>
 			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $args['title']; ?>" >
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'text' ); ?>">Text to display <em>(optional)</em>:</label>
-			<textarea class="widefat" rows="5" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo $args['text']; ?></textarea>
+			<label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text to display (optional): ' ); ?></label>
+			<textarea class="widefat" rows="3" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo $args['text']; ?></textarea>
 		</p>
 
 		<p>
 			<label for="<?php echo $this->get_field_id( 'button'); ?>">Button text <em>(Default: Submit)</em>:</label>
 			<input id="<?php echo $this->get_field_id('button'); ?>" name="<?php echo $this->get_field_name( 'button' ); ?>" type="text" value="<?php echo $args['button']; ?>" >
+		</p>
+
+		<h3>Optional Fields:</h3>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'fname' ); ?>">
+				<?php _e( 'First Name' ); ?>
+				<input id="<?php echo $this->get_field_id( 'fname' ); ?>" name="<?php echo $this->get_field_name( 'fname' ); ?>" type="checkbox" value="yes" <?php if( $args['fname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
+			</label>
+			<label for="<?php echo $this->get_field_id( 'style_vertical' ); ?>">
+				<?php _e( 'Last Name:'); ?>
+				<input id="<?php echo $this->get_field_id( 'lname' ); ?>" name="<?php echo $this->get_field_name( 'lname' ); ?>" type="checkbox" value="yes" <?php if( $args['lname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
+			</label>
 		</p>
 
 	<?php
