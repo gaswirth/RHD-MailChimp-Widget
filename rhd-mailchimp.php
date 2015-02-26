@@ -4,7 +4,7 @@
  * Author: Roundhouse Designs
  * Description: A simple pre-configured MailChimp list signup form.
  * Author URI: https://roundhouse-designs.com
- * Version: 1.1.1
+ * Version: 1.1.2
  **/
 
 define( 'RHD_MC_DIR', plugin_dir_url(__FILE__) );
