@@ -44,7 +44,11 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 		?>
 
 		<div id="rhd_mc_widget-<?php echo $widget_id; ?>" class="rhd_mailchimp clearfix">
-			<p class="rhd_mc_text"><?php echo $args['text']; ?></p>
+
+			<?php if ( !empty( $args['text'] ) ) : ?>
+				<p class="rhd_mc_text"><?php echo $args['text']; ?></p>
+			<?php endif; ?>
+
 			<form id="rhd_mc_subscribe-<?php echo $widget_id; ?>" class="rhd_mc_subscribe clearfix" action="<?php echo RHD_THEME_DIR; ?>/lib/mc/mc_subscribe.php" method="post">
 				<?php if ( $args['fname'] ) : ?>
 					<input id="rhd_mc_fname-<?php echo $widget_id; ?>" class="rhd_mc_fname" type="text" name="fname" placeholder="first">
