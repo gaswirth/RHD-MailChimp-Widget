@@ -26,8 +26,8 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		extract( $args );
 
-		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . '/rhd-mailchimp.js', array( 'jquery' ) );
-		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . '/rhd-mailchimp.css' );
+		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . 'rhd-mailchimp.js', array( 'jquery' ) );
+		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . 'rhd-mailchimp.css' );
 
 		$args['title'] = apply_filters( 'widget_title', $instance['title'] );
 		$args['text'] = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
@@ -68,7 +68,7 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 			<div id="rhd_mc_error-<?php echo $widget_id; ?>" class="rhd_mc_error">
 				Please enter a valid email address.
 			</div><!-- #rhd_mc_error-<?php echo $widget_id; ?> -->
-		</div><!-- <?php echo $this->id; ?> -->
+		</div><!-- <?php echo $widget_id; ?> -->
 
 	<?php echo $after_widget;
 
