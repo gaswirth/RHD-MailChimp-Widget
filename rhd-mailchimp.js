@@ -1,8 +1,10 @@
 /**
  * RHD MailChimp JS Helper
  **/
+var mcAction;
+
 (function($) {
-	var mcAction = $("rhd_mc_subscribe-1").attr("action");
+	mcAction = $(".rhd_mc_subscribe").first().attr("action");
 	$(".rhd_mc_subscribe").attr("action", "");
 	$(".rhd_mc_submit").click( function(e){
 		e.preventDefault();
@@ -12,7 +14,7 @@
 
 
 function mailChimpProcess( button ) {
-	var instance = "-" + jQuery(button).siblings(".rhd_form_mc_id").val();
+	var instance = "-" + jQuery(button).siblings(".rhd_mc_form_id").val();
 
 	var fname = jQuery("#rhd_mc_fname"+instance ).val();
 	var lname = jQuery("#rhd_mc_lname"+instance ).val();
