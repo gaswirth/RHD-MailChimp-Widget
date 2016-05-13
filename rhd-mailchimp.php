@@ -13,7 +13,7 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 	 		'rhd_mailchimp_widget', // Base ID
-			'RHD MailChimp Subscribe Widget', // Name
+			'RHD MailChimp Signup', // Name
 			array( 'description' => __( 'Pre-configured MailChimp subscribe widget.', 'rhd' ), ) // Args
 		);
 	}
