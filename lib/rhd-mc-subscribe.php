@@ -1,8 +1,8 @@
 <?php
 	require_once 'MCAPI.class.php';
 
-	$apikey = '###';
-	$listId = '###';
+	$apikey = 'c1290d5d8ecabd97a628443935bff7ba-us11';
+	$listId = '6f2202f3cc';
 	$email = $_POST['email'];
 	$fname = $_POST['fname'];
 	$lname = $_POST['lname'];

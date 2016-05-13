@@ -7,26 +7,23 @@
 	text-align: center;
 }
 
-.rhd_mc_subscribe input {
-	box-sizing: border-box;
-	border: none;
+.rhd_mc_text p,
+.rhd_mc_thanks p,
+.rhd_mc_error p {
+	margin: 0;
 }
 
 .rhd_mc_fname,
 .rhd_mc_lname,
 .rhd_mc_email {
-	width: 13em;
+	width: 100%;
 	margin: 0.25em auto;
 	padding: 0.25em;
-	background: #fff;
 	font-size: 1em;
-	border-radius: 0.0625em;
 }
 
 .rhd_mc_submit {
 	text-align: center;
-	background: #660000;
-	color: #fff;
 	border: none;
 	padding: 0.3125em;
 	font-size: .9em;
@@ -44,19 +41,4 @@
 .rhd_mc_thanks {
 	width: 100%;
 	position: relative;
-}
-
-
-/*
- * Clearfix: contain floats
- */
-
-.clearfix:before,
-.clearfix:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
-}
-
-.clearfix:after {
-    clear: both;
 }
