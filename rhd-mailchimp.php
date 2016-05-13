@@ -31,9 +31,9 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 
 		$args['title'] = apply_filters( 'widget_title', $instance['title'] );
 		$args['text'] = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
-		$args['button'] = ( !empty( $instance['button'] ) ) ? $instance['button'] : "Submit";
-		$args['fname'] = ( $instance['fname'] == 'yes' ) ? true : false;
-		$args['lname'] = ( $instance['lname'] == 'yes' ) ? true : false;
+		$args['button'] = ( ! empty( $instance['button'] ) ) ? $instance['button'] : "Submit";
+		$args['fname'] = ( ! empty( $instance['fname'] ) ) ? true : false;
+		$args['lname'] = ( ! empty( $instance['lname'] ) ) ? true : false;
 
 		echo $before_widget;
 
@@ -76,11 +76,11 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 
 	public function form( $instance ) {
 		// outputs the options form on admin
-		$args['title'] = esc_attr( $instance['title'] );
-		$args['text'] = esc_textarea( $instance['text'] );
-		$args['button'] = esc_attr( $instance['button'] );
-		$args['fname'] = esc_attr( $instance['fname'] );
-		$args['lname'] = esc_attr( $instance['lname'] );
+		$args['title'] = ( ! empty( $instance['title'] ) ) ? esc_attr( $instance['title'] ) : '';
+		$args['text'] = ( ! empty( $instance['text'] ) ) ? esc_textarea( $instance['text'] ): '';
+		$args['button'] = ( ! empty( $instance['button'] ) ) ? esc_attr( $instance['button'] ) : '';
+		$args['fname'] = ( ! empty( $instance['fname'] ) ) ? esc_attr( $instance['fname'] ) : '';
+		$args['lname'] = ( ! empty( $instance['lname'] ) ) ? esc_attr( $instance['lname'] ): '';
 		?>
 
 		<h3>Widget Options:</h3>
