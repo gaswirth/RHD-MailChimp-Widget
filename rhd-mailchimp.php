@@ -36,42 +36,46 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 		$args['lname'] = ( ! empty( $instance['lname'] ) ) ? true : false;
 
 		echo $before_widget;
-
-		if ( $args['title'] )
-			echo $before_title . $args['title'] . $after_title;
-
-		$widget_id = substr( $this->id, -1, 1 );
 		?>
-
-		<div id="rhd_mc_widget-<?php echo $widget_id; ?>" class="rhd_mailchimp clearfix">
-
-			<?php if ( !empty( $args['text'] ) ) : ?>
-				<p class="rhd_mc_text"><?php echo $args['text']; ?></p>
-			<?php endif; ?>
-
-			<form id="rhd_mc_subscribe-<?php echo $widget_id; ?>" class="rhd_mc_subscribe clearfix" action="<?php echo RHD_MC_DIR; ?>lib/rhd-mc-subscribe.php" method="post">
-				<?php if ( $args['fname'] ) : ?>
-					<input id="rhd_mc_fname-<?php echo $widget_id; ?>" class="rhd_mc_fname" type="text" name="fname" placeholder="first">
+		
+		<div class="rhd-mailchimp-container">
+		
+		<?php
+			if ( $args['title'] )
+				echo $before_title . $args['title'] . $after_title;
+	
+			$widget_id = substr( $this->id, -1, 1 );
+			?>
+	
+			<div class="rhd-mailchimp clearfix">
+	
+				<?php if ( !empty( $args['text'] ) ) : ?>
+					<p class="rhd-mc-text"><?php echo $args['text']; ?></p>
 				<?php endif; ?>
+	
+				<form id="rhd-mc-subscribe-<?php echo $widget_id; ?>" class="rhd-mc-subscribe clearfix" action="<?php echo RHD_MC_DIR; ?>lib/rhd-mc-subscribe.php" method="post">
+					<?php if ( $args['fname'] ) : ?>
+						<input id="rhd-mc-fname-<?php echo $widget_id; ?>" class="rhd-mc-fname" type="text" name="fname" placeholder="first">
+					<?php endif; ?>
+	
+					<?php if ( $args['lname'] ) : ?>
+						<input id="rhd-mc-lname-<?php echo $widget_id; ?>" class="rhd-mc-lname" type="text" name="lname" placeholder="last">
+					<?php endif; ?>
+	
+					<input id="rhd-mc-email-<?php echo $widget_id; ?>" class="rhd-mc-email" type="email" name="email" placeholder="email">
+					<input class="rhd-mc-form-id" type="hidden" value="<?php echo $widget_id; ?>">
+					<input id="rhd-mc-submit-<?php echo $widget_id; ?>" class="rhd-mc-submit" type="submit" value="<?php echo $args['button']; ?>" name="submit-<?php echo $widget_id; ?>">
+				</form>
+				<div id="rhd-mc-thanks-<?php echo $widget_id; ?>" class="rhd-mc-thanks">
+					<p>Subscribed!</p>
+				</div>
+				<div id="rhd-mc-error-<?php echo $widget_id; ?>" class="rhd-mc-error">
+					Please enter a valid email address.
+				</div>
+			</div>
+		</div>
 
-				<?php if ( $args['lname'] ) : ?>
-					<input id="rhd_mc_lname-<?php echo $widget_id; ?>" class="rhd_mc_lname" type="text" name="lname" placeholder="last">
-				<?php endif; ?>
-
-				<input id="rhd_mc_email-<?php echo $widget_id; ?>" class="rhd_mc_email" type="email" name="email" placeholder="email">
-				<input class="rhd_mc_form_id" type="hidden" value="<?php echo $widget_id; ?>">
-				<input id="rhd_mc_submit-<?php echo $widget_id; ?>" class="rhd_mc_submit" type="submit" value="<?php echo $args['button']; ?>" name="submit-<?php echo $widget_id; ?>">
-			</form>
-			<div id="rhd_mc_thanks-<?php echo $widget_id; ?>" class="rhd_mc_thanks">
-				<p>Subscribed!</p>
-			</div><!-- #rhd_mc_thanks-<?php echo $widget_id; ?> -->
-			<div id="rhd_mc_error-<?php echo $widget_id; ?>" class="rhd_mc_error">
-				Please enter a valid email address.
-			</div><!-- #rhd_mc_error-<?php echo $widget_id; ?> -->
-		</div><!-- <?php echo $widget_id; ?> -->
-
-	<?php echo $after_widget;
-
+		<?php echo $after_widget;
 	}
 
 	public function form( $instance ) {
@@ -140,7 +144,7 @@ function rhd_mailchimp_shortcode( $atts )
 	$args = array(
 		'before_title'	=> '<h2 class="widget-title">',
 		'after_title'	=> '</h2>',
-		'before_widget' => '<div class="rhd-mailchimp" class="widget widget-rhd-mailchimp">',
+		'before_widget' => '<div class="widget widget-rhd-mailchimp rhd-mailchimp-shortcode">',
 		'after_widget'  => '</div>'
 	);
 

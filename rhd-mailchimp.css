@@ -2,27 +2,27 @@
  * Basic stylesheet for the RHD MailChimp plugin by Roundhouse Designs
  **/
 
-.rhd_mc_text {
+.rhd-mc-text {
 	margin: 0.5em 0;
 	text-align: center;
 }
 
-.rhd_mc_text p,
-.rhd_mc_thanks p,
-.rhd_mc_error p {
+.rhd-mc-text p,
+.rhd-mc-thanks p,
+.rhd-mc-error p {
 	margin: 0;
 }
 
-.rhd_mc_fname,
-.rhd_mc_lname,
-.rhd_mc_email {
+.rhd-mc-fname,
+.rhd-mc-lname,
+.rhd-mc-email {
 	width: 100%;
 	margin: 0.25em auto;
 	padding: 0.25em;
 	font-size: 1em;
 }
 
-.rhd_mc_submit {
+.rhd-mc-submit {
 	text-align: center;
 	border: none;
 	padding: 0.3125em;
@@ -33,12 +33,12 @@
 	outline: none;
 }
 
-.rhd_mc_thanks,
-.rhd_mc_error {
+.rhd-mc-thanks,
+.rhd-mc-error {
 	display: none;
 }
 
-.rhd_mc_thanks {
+.rhd-mc-thanks {
 	width: 100%;
 	position: relative;
 }
