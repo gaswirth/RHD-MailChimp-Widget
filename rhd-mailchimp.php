@@ -117,3 +117,36 @@ function rhd_register_mailchimp_widget() {
     register_widget( 'RHD_Mailchimp_Widget' );
 }
 add_action( 'widgets_init', 'rhd_register_mailchimp_widget' );
+
+
+/* ==========================================================================
+	Shortcode
+   ========================================================================== */
+
+add_shortcode( 'rhd-mailchimp', 'rhd_mailchimp_shortcode' );
+function rhd_mailchimp_shortcode( $atts )
+{
+	extract( shortcode_atts(
+		array(
+			'title' 	=> '',
+			'text'		=> null,
+			'button'	=> null,
+			'fname'		=> null,
+			'lname'		=> null	
+		),
+		$atts
+	));
+
+	$args = array(
+		'before_title'	=> '<h2 class="widget-title">',
+		'after_title'	=> '</h2>',
+		'before_widget' => '<div class="rhd-mailchimp" class="widget widget-rhd-mailchimp">',
+		'after_widget'  => '</div>'
+	);
+
+	ob_start();
+	the_widget( 'RHD_Mailchimp_Widget', $atts, $args );
+	$output = ob_get_clean();
+
+	return $output;
+}
