@@ -35,10 +35,11 @@
 
 .rhd-mc-thanks,
 .rhd-mc-error {
-	display: none;
-}
-
-.rhd-mc-thanks {
 	width: 100%;
-	position: relative;
+	position: absolute;
+	bottom: -1.6em;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	opacity: 0;
+	text-align: center;
 }

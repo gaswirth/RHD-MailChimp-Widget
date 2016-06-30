@@ -4,9 +4,9 @@
 var mcAction;
 
 (function($) {
-	mcAction = $(".rhd_mc_subscribe").first().attr("action");
-	$(".rhd_mc_subscribe").attr("action", "");
-	$(".rhd_mc_submit").click( function(e){
+	mcAction = $(".rhd-mc-subscribe").first().attr("action");
+	$(".rhd-mc-subscribe").attr("action", "");
+	$(".rhd-mc-submit").click( function(e){
 		e.preventDefault();
 		mailChimpProcess($(this));
 	});
@@ -14,11 +14,11 @@ var mcAction;
 
 
 function mailChimpProcess( button ) {
-	var instance = "-" + jQuery(button).siblings(".rhd_mc_form_id").val();
+	var instance = "-" + jQuery(button).siblings(".rhd-mc-form-id").val();
 
-	var fname = jQuery("#rhd_mc_fname"+instance ).val();
-	var lname = jQuery("#rhd_mc_lname"+instance ).val();
-	var email = jQuery("#rhd_mc_email"+instance ).val();
+	var fname = jQuery("#rhd-mc-fname"+instance ).val();
+	var lname = jQuery("#rhd-mc-lname"+instance ).val();
+	var email = jQuery("#rhd-mc-email"+instance ).val();
 	var dataString = "fname="+fname+"&lname="+lname+"&email="+email;
 
 	jQuery.ajax({
@@ -26,11 +26,11 @@ function mailChimpProcess( button ) {
 		url:  mcAction,
 		data: dataString,
 		error: function() {
-			jQuery("#rhd_mc_error"+instance).fadeIn('fast');
+			jQuery("#rhd-mc-error"+instance).fadeIn('fast');
 		},
 		success: function() {
-			jQuery("#rhd_mc_subscribe"+instance+" .email").animate({ opacity: 0 });
-			jQuery("#rhd_mc_thanks"+instance).fadeIn();
+			jQuery("#rhd-mc-subscribe"+instance+" .email").animate({'opacity': 0 });
+			jQuery("#rhd-mc-thanks"+instance).animate({'opacity': 1}, 'fast');
 		}
 	});
 }
