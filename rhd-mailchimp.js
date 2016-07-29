@@ -3,22 +3,26 @@
  **/
 var mcAction;
 
-(function($) {
-	mcAction = $(".rhd-mc-subscribe").first().attr("action");
-	$(".rhd-mc-subscribe").attr("action", "");
-	$(".rhd-mc-submit").on('click', function(e){
-		e.preventDefault();
-		mailChimpProcess($(this));
-	});
-})(jQuery);
+jQuery(document).ready(function(){
+	mcAction = jQuery(".rhd-mc-subscribe").first().attr("action");
+	jQuery(".rhd-mc-subscribe").attr("action", "");
+});
+
+
+jQuery(document).on("click", ".rhd-mc-submit", function(e){
+	e.preventDefault();
+	mailChimpProcess(jQuery(this));
+});
 
 
 function mailChimpProcess( button ) {
 	var instance = jQuery(button).siblings(".rhd-mc-form-id").val();
 
-	var fname = jQuery("#rhd-mc-fname-"+instance ).val();
-	var lname = jQuery("#rhd-mc-lname-"+instance ).val();
-	var email = jQuery("#rhd-mc-email-"+instance ).val();
+	console.log(instance);
+
+	var fname = jQuery("#rhd-mc-fname-"+instance).val();
+	var lname = jQuery("#rhd-mc-lname-"+instance).val();
+	var email = jQuery("#rhd-mc-email-"+instance).val();
 	var dataString = "fname="+fname+"&lname="+lname+"&email="+email;
 
 	jQuery.ajax({
