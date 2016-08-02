@@ -110,7 +110,7 @@ function rhd_mailchimp_widget( $args, $atts, $w_id = null ) {
 				<form id=\"rhd-mc-subscribe-{$w_id}\" class=\"rhd-mc-subscribe clearfix\" action=\"" . RHD_MC_DIR . "lib/rhd-mc-subscribe.php\" method=\"post\">\n";
 
 				if ( $atts['fname'] )
-					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" class=\"rhd-mc-fname\" type=\"text\" name=\"fname\" placeholder=\"first\">\n";
+					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" class=\"rhd-mc-fname\" type=\"text\" name=\"fname\" placeholder=\"first name\">\n";
 
 				if ( $atts['lname'] )
 					$output .= "<input id=\"rhd-mc-lname-{$w_id}\" class=\"rhd-mc-lname\" type=\"text\" name=\"lname\" placeholder=\"last\">\n";
