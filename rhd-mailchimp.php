@@ -16,6 +16,13 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 			'RHD MailChimp Signup', // Name
 			array( 'description' => __( 'Pre-configured MailChimp subscribe widget.', 'rhd' ), ) // Args
 		);
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'display_styles' ) );
+	}
+
+	public function display_styles() {
+		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . 'js/rhd-mailchimp.js', array( 'jquery' ) );
+		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . 'css/rhd-mailchimp.css' );
 	}
 
 	public function update( $new_instance, $old_instance ) {
@@ -24,9 +31,6 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 	}
 
 	public function widget( $args, $instance ) {
-		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . 'rhd-mailchimp.js', array( 'jquery' ) );
-		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . 'rhd-mailchimp.css' );
-
 		$atts['title'] = apply_filters( 'widget_title', $instance['title'] );
 		$atts['text'] = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
 		$atts['button'] = ( ! empty( $instance['button'] ) ) ? $instance['button'] : "Submit";
@@ -110,13 +114,13 @@ function rhd_mailchimp_widget( $args, $atts, $w_id = null ) {
 				<form id=\"rhd-mc-subscribe-{$w_id}\" class=\"rhd-mc-subscribe clearfix\" action=\"" . RHD_MC_DIR . "lib/rhd-mc-subscribe.php\" method=\"post\">\n";
 
 				if ( $atts['fname'] )
-					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" class=\"rhd-mc-fname\" type=\"text\" name=\"fname\" placeholder=\"first name\">\n";
+					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" class=\"rhd-mc-fname\" type=\"text\" name=\"fname\" placeholder=\"First Name\">\n";
 
 				if ( $atts['lname'] )
-					$output .= "<input id=\"rhd-mc-lname-{$w_id}\" class=\"rhd-mc-lname\" type=\"text\" name=\"lname\" placeholder=\"last\">\n";
+					$output .= "<input id=\"rhd-mc-lname-{$w_id}\" class=\"rhd-mc-lname\" type=\"text\" name=\"lname\" placeholder=\"Last Name\">\n";
 
 	$output .= "
-					<input id=\"rhd-mc-email-{$w_id}\" class=\"rhd-mc-email\" type=\"email\" name=\"email\" placeholder=\"email address\">\n
+					<input id=\"rhd-mc-email-{$w_id}\" class=\"rhd-mc-email\" type=\"email\" name=\"email\" placeholder=\"Email\">\n
 					<input class=\"rhd-mc-form-id\" type=\"hidden\" value=\"{$w_id}\">\n
 					<input id=\"rhd-mc-submit-{$w_id}\" class=\"rhd-mc-submit\" type=\"submit\" value=\"{$atts['button']}\" name=\"submit-{$w_id}\">\n
 				</form>\n
