@@ -110,7 +110,7 @@ function rhd_mc_sanitize( $input ) {
 		add_settings_error(
 			'rhd_mc_api_key',
 			'rhd_mc_api_key_error',
-			'Invalid API Key',
+			'Invalid MailChimp API Key format.',
 			'error'
 		);
 	}
