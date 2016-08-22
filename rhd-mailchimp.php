@@ -47,6 +47,7 @@ class RHD_MailChimp extends WP_Widget {
 	public function form( $instance ) {
 		// outputs the options form on admin
 		$args['title'] = ( ! empty( $instance['title'] ) ) ? esc_attr( $instance['title'] ) : '';
+		$args['list_id'] = ( ! empty( $instance['list_id'] ) ) ? esc_attr( $instance['list_id'] ) : '';
 		$args['text'] = ( ! empty( $instance['text'] ) ) ? esc_textarea( $instance['text'] ): '';
 		$args['button'] = ( ! empty( $instance['button'] ) ) ? esc_attr( $instance['button'] ) : '';
 		$args['fname'] = ( ! empty( $instance['fname'] ) ) ? esc_attr( $instance['fname'] ) : '';
@@ -56,7 +57,12 @@ class RHD_MailChimp extends WP_Widget {
 		<h3>Widget Options:</h3>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php  _e( 'Widget Title (optional): ' ); ?></label>
-			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $args['title']; ?>" >
+			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $args['title']; ?>">
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'list_id' ); ?>"><?php _e( 'MailChimp List ID:' ); ?></label>
+			<input id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name( 'list_id' ); ?>" type="text" value="<?php echo $args['list_id']; ?>">
 		</p>
 
 		<p>
@@ -122,6 +128,7 @@ function rhd_mailchimp( $args, $atts, $w_id = null ) {
 	$output .= "
 					<input id=\"rhd-mc-email-{$w_id}\" class=\"rhd-mc-email\" type=\"email\" name=\"email\" placeholder=\"Email\">\n
 					<input class=\"rhd-mc-form-id\" type=\"hidden\" value=\"{$w_id}\">\n
+					<input type=\"hidden\" name=\"list_id\" value=\"{$atts['list_id']}\" />
 					<input id=\"rhd-mc-submit-{$w_id}\" class=\"rhd-mc-submit\" type=\"submit\" value=\"{$atts['button']}\" name=\"submit-{$w_id}\">\n
 				</form>\n
 				<div id=\"rhd-mc-thanks-{$w_id}\" class=\"rhd-mc-thanks\">\n
@@ -165,6 +172,7 @@ function rhd_mc_settings_init() {
 		'rhd_mc_settings_section'
 	);
 }
+add_action( 'admin_init', 'rhd_md_setting_init' );
 
 
 function rhd_mc_api_key_cb() {
@@ -206,6 +214,7 @@ function rhd_mailchimp_shortcode( $atts )
 {
 	shortcode_atts( array(
 		'title' 	=> '',
+		'list_id'	=> null,
 		'text'		=> null,
 		'button'	=> null,
 		'fname'		=> null,

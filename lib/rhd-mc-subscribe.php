@@ -1,9 +1,10 @@
 <?php
 require_once 'MCAPI.class.php';
 
-//FIXME $apikey and $listId constants
-$apikey = '281c12c1a2874ba0069a629211123782-us12';
-$listId = 'b1d0d80c77';
+$options = get_option( 'rhd_site_settings' );
+
+$apikey = esc_attr( $options['rhd_mc_api_key'] );
+$listId = $_POST['list_id'];
 $email = $_POST['email'];
 $fname = ! empty( $_POST['fname'] ) ? $_POST['fname'] : null;
 $lname = ! empty( $_POST['lname'] ) ? $_POST['lname'] : null;
