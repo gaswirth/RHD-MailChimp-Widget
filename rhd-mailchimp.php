@@ -140,6 +140,64 @@ function rhd_mailchimp_widget( $args, $atts, $w_id = null ) {
 
 
 /* ==========================================================================
+	Admin Settings
+   ========================================================================== */
+
+function rhd_mc_settings_init() {
+	register_setting(
+		'rhd_theme_settings',
+		'rhd_mc_settings',
+		'rhd_mc_sanitize'
+	);
+
+	add_settings_section(
+		'rhd_mc_settings_section',
+		'MailChimp Settings',
+		'',
+		'rhd-settings-admin'
+	);
+
+	add_settings_field(
+		'rhd_mc_api_key',
+		'API Key',
+		'rhd_mc_api_key_cb',
+		'rhd-settings-admin',
+		'rhd_mc_settings_section'
+	);
+}
+
+
+function rhd_mc_api_key_cb() {
+	$options = get_option( 'rhd_theme_settings' );
+	$apikey = $options['rhd_mc_api_key'];
+
+	?>
+	<p>
+		<label for="rhd_mc_api_key">Label</label><br />
+		<input type="text" id="rhd_mc_api_key" name="rhd_theme_settings[rhd_mc_api_key]" value="<?php echo esc_attr( $apikey ); ?>" />
+	</p>
+	<?php
+}
+
+
+function rhd_mc_sanitize() {
+	$valid = array();
+	$valid['rhd_mc_api_key'] = preg_match( '/^[0-9a-z]{32}(-us)(0?[1-9]|1[0-3])?$/', $apikey ) ? $apikey : false;
+
+	if ( $valid['rhd_mc_api_key'] != $input['rhd_mc_api_key'] ) {
+		add_settings_error(
+			'rhd_mc_api_key',
+			'rhd_mc_api_key_error',
+			'Invalid API Key',
+			'error'
+		);
+	}
+
+	return $valid;
+}
+
+
+/* ==========================================================================
 	Shortcode
    ========================================================================== */
 

@@ -16,9 +16,7 @@ jQuery(document).on("click", ".rhd-mc-submit", function(e){
 
 
 function mailChimpProcess( button ) {
-	var instance = jQuery(button).siblings(".rhd-mc-form-id").val();
-
-	console.log(instance);
+	var instance = jQuery(button).siblings(".rhd-mc-form-id").val();z
 
 	var fname = jQuery("#rhd-mc-fname-"+instance).val();
 	var lname = jQuery("#rhd-mc-lname-"+instance).val();
