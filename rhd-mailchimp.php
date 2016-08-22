@@ -9,94 +9,9 @@
 
 define( 'RHD_MC_DIR', plugin_dir_url(__FILE__) );
 
-class RHD_MailChimp extends WP_Widget {
-	public function __construct() {
-		parent::__construct(
-	 		'rhd_mailchimp', // Base ID
-			'RHD MailChimp', // Name
-			array( 'description' => __( 'A MailChimp signup widget from Roundhouse Designs.', 'rhd' ), ) // Args
-		);
-
-		add_action( 'wp_enqueue_scripts', array( $this, 'display_styles' ) );
-	}
-
-	public function display_styles() {
-		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . 'js/rhd-mailchimp.js', array( 'jquery' ) );
-		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . 'css/rhd-mailchimp.css' );
-	}
-
-	public function update( $new_instance, $old_instance ) {
-		// processes widget options to be saved
-		return $new_instance;
-	}
-
-	public function widget( $args, $instance ) {
-		$atts['title'] = apply_filters( 'widget_title', $instance['title'] );
-		$atts['text'] = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
-		$atts['button'] = ( ! empty( $instance['button'] ) ) ? $instance['button'] : "Submit";
-		$atts['fname'] = ( ! empty( $instance['fname'] ) ) ? true : false;
-		$atts['lname'] = ( ! empty( $instance['lname'] ) ) ? true : false;
-
-		preg_match_all( '!\d+!', $this->id, $matches );
-
-		$widget_id = intval( $matches[0][0] );
-
-		echo rhd_mailchimp( $args, $atts, $widget_id );
-	}
-
-	public function form( $instance ) {
-		// outputs the options form on admin
-		$args['title'] = ( ! empty( $instance['title'] ) ) ? esc_attr( $instance['title'] ) : '';
-		$args['list_id'] = ( ! empty( $instance['list_id'] ) ) ? esc_attr( $instance['list_id'] ) : '';
-		$args['text'] = ( ! empty( $instance['text'] ) ) ? esc_textarea( $instance['text'] ): '';
-		$args['button'] = ( ! empty( $instance['button'] ) ) ? esc_attr( $instance['button'] ) : '';
-		$args['fname'] = ( ! empty( $instance['fname'] ) ) ? esc_attr( $instance['fname'] ) : '';
-		$args['lname'] = ( ! empty( $instance['lname'] ) ) ? esc_attr( $instance['lname'] ): '';
-		?>
-
-		<h3>Widget Options:</h3>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php  _e( 'Widget Title (optional): ' ); ?></label>
-			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $args['title']; ?>">
-		</p>
-
-		<p>
-			<label for="<?php echo $this->get_field_id( 'list_id' ); ?>"><?php _e( 'MailChimp List ID:' ); ?></label>
-			<input id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name( 'list_id' ); ?>" type="text" value="<?php echo $args['list_id']; ?>">
-		</p>
-
-		<p>
-			<label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text to display (optional): ' ); ?></label>
-			<textarea class="widefat" rows="3" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo $args['text']; ?></textarea>
-		</p>
-
-		<p>
-			<label for="<?php echo $this->get_field_id( 'button'); ?>">Button text <em>(Default: Submit)</em>:</label>
-			<input id="<?php echo $this->get_field_id('button'); ?>" name="<?php echo $this->get_field_name( 'button' ); ?>" type="text" value="<?php echo $args['button']; ?>" >
-		</p>
-
-		<h3>Optional Fields:</h3>
-		<p>
-			<input id="<?php echo $this->get_field_id( 'fname' ); ?>" name="<?php echo $this->get_field_name( 'fname' ); ?>" type="checkbox" value="yes" <?php if( $args['fname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
-			<label for="<?php echo $this->get_field_id( 'fname' ); ?>"><?php _e( 'First Name' ); ?></label>
-		</p>
-		<p>
-			<input id="<?php echo $this->get_field_id( 'lname' ); ?>" name="<?php echo $this->get_field_name( 'lname' ); ?>" type="checkbox" value="yes" <?php if( $args['lname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
-			<label for="<?php echo $this->get_field_id( 'style_vertical' ); ?>"><?php _e( 'Last Name'); ?></label>
-		</p>
-
-	<?php
-	}
-}
-
-function rhd_register_mailchimp_widget() {
-    register_widget( 'RHD_MailChimp' );
-}
-add_action( 'widgets_init', 'rhd_register_mailchimp_widget' );
-
 
 /* ==========================================================================
-	Function
+	Base Functionality
    ========================================================================== */
 
 function rhd_mailchimp( $args, $atts, $w_id = null ) {
@@ -202,6 +117,96 @@ function rhd_mc_sanitize( $input ) {
 
 	return $valid;
 }
+
+
+/* ==========================================================================
+	Widget
+   ========================================================================== */
+
+class RHD_MailChimp extends WP_Widget {
+	public function __construct() {
+		parent::__construct(
+	 		'rhd_mailchimp', // Base ID
+			'RHD MailChimp', // Name
+			array( 'description' => __( 'A MailChimp signup widget from Roundhouse Designs.', 'rhd' ), ) // Args
+		);
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'display_styles' ) );
+	}
+
+	public function display_styles() {
+		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . 'js/rhd-mailchimp.js', array( 'jquery' ) );
+		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . 'css/rhd-mailchimp.css' );
+	}
+
+	public function update( $new_instance, $old_instance ) {
+		// processes widget options to be saved
+		return $new_instance;
+	}
+
+	public function widget( $args, $instance ) {
+		$atts['title'] = apply_filters( 'widget_title', $instance['title'] );
+		$atts['text'] = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
+		$atts['button'] = ( ! empty( $instance['button'] ) ) ? $instance['button'] : "Submit";
+		$atts['fname'] = ( ! empty( $instance['fname'] ) ) ? true : false;
+		$atts['lname'] = ( ! empty( $instance['lname'] ) ) ? true : false;
+
+		preg_match_all( '!\d+!', $this->id, $matches );
+
+		$widget_id = intval( $matches[0][0] );
+
+		echo rhd_mailchimp( $args, $atts, $widget_id );
+	}
+
+	public function form( $instance ) {
+		// outputs the options form on admin
+		$args['title'] = ( ! empty( $instance['title'] ) ) ? esc_attr( $instance['title'] ) : '';
+		$args['list_id'] = ( ! empty( $instance['list_id'] ) ) ? esc_attr( $instance['list_id'] ) : '';
+		$args['text'] = ( ! empty( $instance['text'] ) ) ? esc_textarea( $instance['text'] ): '';
+		$args['button'] = ( ! empty( $instance['button'] ) ) ? esc_attr( $instance['button'] ) : '';
+		$args['fname'] = ( ! empty( $instance['fname'] ) ) ? esc_attr( $instance['fname'] ) : '';
+		$args['lname'] = ( ! empty( $instance['lname'] ) ) ? esc_attr( $instance['lname'] ): '';
+		?>
+
+		<h3>Widget Options:</h3>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php  _e( 'Widget Title (optional): ' ); ?></label>
+			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $args['title']; ?>">
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'list_id' ); ?>"><?php _e( 'MailChimp List ID:' ); ?></label>
+			<input id="<?php echo $this->get_field_id('list_id'); ?>" name="<?php echo $this->get_field_name( 'list_id' ); ?>" type="text" value="<?php echo $args['list_id']; ?>">
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text to display (optional): ' ); ?></label>
+			<textarea class="widefat" rows="3" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo $args['text']; ?></textarea>
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id( 'button'); ?>">Button text <em>(Default: Submit)</em>:</label>
+			<input id="<?php echo $this->get_field_id('button'); ?>" name="<?php echo $this->get_field_name( 'button' ); ?>" type="text" value="<?php echo $args['button']; ?>" >
+		</p>
+
+		<h3>Optional Fields:</h3>
+		<p>
+			<input id="<?php echo $this->get_field_id( 'fname' ); ?>" name="<?php echo $this->get_field_name( 'fname' ); ?>" type="checkbox" value="yes" <?php if( $args['fname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
+			<label for="<?php echo $this->get_field_id( 'fname' ); ?>"><?php _e( 'First Name' ); ?></label>
+		</p>
+		<p>
+			<input id="<?php echo $this->get_field_id( 'lname' ); ?>" name="<?php echo $this->get_field_name( 'lname' ); ?>" type="checkbox" value="yes" <?php if( $args['lname'] === 'yes' ){ echo 'checked="checked"'; } ?> />
+			<label for="<?php echo $this->get_field_id( 'style_vertical' ); ?>"><?php _e( 'Last Name'); ?></label>
+		</p>
+
+	<?php
+	}
+}
+
+function rhd_register_mailchimp_widget() {
+    register_widget( 'RHD_MailChimp' );
+}
+add_action( 'widgets_init', 'rhd_register_mailchimp_widget' );
 
 
 /* ==========================================================================
