@@ -172,25 +172,24 @@ function rhd_mc_settings_init() {
 		'rhd_mc_settings_section'
 	);
 }
-add_action( 'admin_init', 'rhd_md_setting_init' );
+add_action( 'admin_init', 'rhd_mc_settings_init' );
 
 
 function rhd_mc_api_key_cb() {
-	$options = get_option( 'rhd_site_settings' );
+	$options = get_option( 'rhd_mc_settings' );
 	$apikey = $options['rhd_mc_api_key'];
 
 	?>
 	<p>
-		<label for="rhd_mc_api_key">Label</label><br />
-		<input type="text" id="rhd_mc_api_key" name="rhd_site_settings[rhd_mc_api_key]" value="<?php echo esc_attr( $apikey ); ?>" />
+		<input type="text" id="rhd_mc_api_key" name="rhd_mc_settings[rhd_mc_api_key]" value="<?php echo esc_attr( $apikey ); ?>" />
 	</p>
 	<?php
 }
 
 
-function rhd_mc_sanitize() {
+function rhd_mc_sanitize( $input ) {
 	$valid = array();
-	$valid['rhd_mc_api_key'] = preg_match( '/^[0-9a-z]{32}(-us)(0?[1-9]|1[0-3])?$/', $apikey ) ? $apikey : false;
+	$valid['rhd_mc_api_key'] = preg_match( '/^[0-9a-z]{32}(-us)(0?[1-9]|1[0-3])?$/', $input['rhd_mc_api_key'] ) ? $input['rhd_mc_api_key'] : false;
 
 	if ( $valid['rhd_mc_api_key'] != $input['rhd_mc_api_key'] ) {
 		add_settings_error(
