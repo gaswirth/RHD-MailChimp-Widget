@@ -4,17 +4,17 @@
  * Author: Roundhouse Designs
  * Description: A simple pre-configured MailChimp list signup form.
  * Author URI: https://roundhouse-designs.com
- * Version: 1.4
+ * Version: 2.0a
  **/
 
 define( 'RHD_MC_DIR', plugin_dir_url(__FILE__) );
 
-class RHD_Mailchimp_Widget extends WP_Widget {
+class RHD_MailChimp extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
-	 		'rhd_mailchimp_widget', // Base ID
-			'RHD MailChimp Signup', // Name
-			array( 'description' => __( 'Pre-configured MailChimp subscribe widget.', 'rhd' ), ) // Args
+	 		'rhd_mailchimp', // Base ID
+			'RHD MailChimp', // Name
+			array( 'description' => __( 'A MailChimp signup widget from Roundhouse Designs.', 'rhd' ), ) // Args
 		);
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'display_styles' ) );
@@ -41,7 +41,7 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 
 		$widget_id = intval( $matches[0][0] );
 
-		echo rhd_mailchimp_widget( $args, $atts, $widget_id );
+		echo rhd_mailchimp( $args, $atts, $widget_id );
 	}
 
 	public function form( $instance ) {
@@ -84,7 +84,7 @@ class RHD_Mailchimp_Widget extends WP_Widget {
 }
 
 function rhd_register_mailchimp_widget() {
-    register_widget( 'RHD_Mailchimp_Widget' );
+    register_widget( 'RHD_MailChimp' );
 }
 add_action( 'widgets_init', 'rhd_register_mailchimp_widget' );
 
@@ -93,7 +93,7 @@ add_action( 'widgets_init', 'rhd_register_mailchimp_widget' );
 	Function
    ========================================================================== */
 
-function rhd_mailchimp_widget( $args, $atts, $w_id = null ) {
+function rhd_mailchimp( $args, $atts, $w_id = null ) {
 	extract( $args );
 	$w_id = $w_id ? $w_id : rand( 101,200 );
 
@@ -219,7 +219,7 @@ function rhd_mailchimp_shortcode( $atts )
 		'after_widget'  => '</div>'
 	);
 
-	$output = rhd_mailchimp_widget( $args, $atts, rand( 99, 999 ) );
+	$output = rhd_mailchimp( $args, $atts, rand( 99, 999 ) );
 
 	return $output;
 }
