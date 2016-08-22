@@ -152,7 +152,7 @@ function rhd_mailchimp( $args, $atts, $w_id = null ) {
 
 function rhd_mc_settings_init() {
 	register_setting(
-		'rhd_theme_settings',
+		'rhd_site_settings',
 		'rhd_mc_settings',
 		'rhd_mc_sanitize'
 	);
@@ -176,13 +176,13 @@ add_action( 'admin_init', 'rhd_md_setting_init' );
 
 
 function rhd_mc_api_key_cb() {
-	$options = get_option( 'rhd_theme_settings' );
+	$options = get_option( 'rhd_site_settings' );
 	$apikey = $options['rhd_mc_api_key'];
 
 	?>
 	<p>
 		<label for="rhd_mc_api_key">Label</label><br />
-		<input type="text" id="rhd_mc_api_key" name="rhd_theme_settings[rhd_mc_api_key]" value="<?php echo esc_attr( $apikey ); ?>" />
+		<input type="text" id="rhd_mc_api_key" name="rhd_site_settings[rhd_mc_api_key]" value="<?php echo esc_attr( $apikey ); ?>" />
 	</p>
 	<?php
 }
