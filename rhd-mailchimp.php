@@ -4,8 +4,12 @@
  * Author: Roundhouse Designs
  * Description: A MailChimp signup widget from Roundhouse Designs.
  * Author URI: https://roundhouse-designs.com
- * Version: 2.0.2
+ * Version: 2.0.3
  **/
+
+/* ==========================================================================
+	Initialization
+   ========================================================================== */
 
 define( 'RHD_MC_DIR', plugin_dir_url( __FILE__ ) );
 define( 'RHD_MC_PATH', plugin_dir_path( __FILE__ ) );
@@ -13,19 +17,30 @@ define( 'RHD_MC_PATH', plugin_dir_path( __FILE__ ) );
 require_once( RHD_MC_PATH . '/vendor/autoload.php' );
 use \DrewM\MailChimp\MailChimp;
 
+$options = get_option( 'rhd_mc_settings' );
+
 
 /* ==========================================================================
 	Base Functionality
    ========================================================================== */
 
 
-function rhd_mailchimp( $args, $atts, $w_id = null ) {
+/**
+ * rhd_mailchimp function.
+ *
+ * @access public
+ * @param mixed $args
+ * @param mixed $atts
+ * @param mixed $hash (default: null)
+ * @return void
+ */
+function rhd_mailchimp( $args, $atts, $hash = null ) {
 	extract( $args );
 	extract( $atts );
 
 	$button = $button ? esc_attr( $button ) : 'Submit';
 
-	$w_id = $w_id ? $w_id : rand( 101,200 );
+	$hash = $hash ? $hash : rand( 101,200 );
 
 	$output = $before_widget;
 
@@ -41,29 +56,29 @@ function rhd_mailchimp( $args, $atts, $w_id = null ) {
 		$output .= "<p class=\"rhd-mc-text\">{$text}</p>\n";
 
 	$output .= "
-				<form id=\"rhd-mc-subscribe-{$w_id}\" class=\"rhd-mc-subscribe clearfix\" action=\"#\" method=\"post\">\n";
+				<form id=\"rhd-mc-subscribe-{$hash}\" class=\"rhd-mc-subscribe clearfix\" action=\"#\" method=\"post\">\n";
 
 				if ( $fname ) {
-					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" class=\"rhd-mc-fname\" type=\"text\" name=\"fname\" placeholder=\"First Name\">\n";
+					$output .= "<input id=\"rhd-mc-fname-{$hash}\" class=\"rhd-mc-fname\" type=\"text\" name=\"fname\" placeholder=\"First Name\">\n";
 				} else {
-					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" type=\"hidden\" name=\"fname\" value=\"0\" >\n";
+					$output .= "<input id=\"rhd-mc-fname-{$hash}\" type=\"hidden\" name=\"fname\" value=\"0\" >\n";
 				}
 
 				if ( $lname ) {
-					$output .= "<input id=\"rhd-mc-lname-{$w_id}\" class=\"rhd-mc-lname\" type=\"text\" name=\"lname\" placeholder=\"Last Name\">\n";
+					$output .= "<input id=\"rhd-mc-lname-{$hash}\" class=\"rhd-mc-lname\" type=\"text\" name=\"lname\" placeholder=\"Last Name\">\n";
 				} else {
-					$output .= "<input id=\"rhd-mc-lname-{$w_id}\" type=\"hidden\" name=\"lname\" value=\"0\" >\n";
+					$output .= "<input id=\"rhd-mc-lname-{$hash}\" type=\"hidden\" name=\"lname\" value=\"0\" >\n";
 				}
 	$output .= "
-					<input id=\"rhd-mc-email-{$w_id}\" class=\"rhd-mc-email\" type=\"email\" name=\"email\" placeholder=\"Email\">\n
-					<input class=\"rhd-mc-form-id\" type=\"hidden\" value=\"{$w_id}\">\n
-					<input id=\"rhd-mc-list-id-{$w_id}\" type=\"hidden\" name=\"list_id\" value=\"{$list_id}\" />
-					<input id=\"rhd-mc-submit-{$w_id}\" class=\"rhd-mc-submit\" type=\"submit\" value=\"{$button}\" name=\"submit-{$w_id}\">\n
+					<input id=\"rhd-mc-email-{$hash}\" class=\"rhd-mc-email\" type=\"email\" name=\"email\" placeholder=\"Email\">\n
+					<input class=\"rhd-mc-form-id\" type=\"hidden\" value=\"{$hash}\">\n
+					<input id=\"rhd-mc-list-id-{$hash}\" type=\"hidden\" name=\"list_id\" value=\"{$list_id}\" />
+					<input id=\"rhd-mc-submit-{$hash}\" class=\"rhd-mc-submit\" type=\"submit\" value=\"{$button}\" name=\"submit-{$hash}\">\n
 				</form>\n
-				<div id=\"rhd-mc-thanks-{$w_id}\" class=\"rhd-mc-thanks\">\n
+				<div id=\"rhd-mc-thanks-{$hash}\" class=\"rhd-mc-thanks\">\n
 					<p>Subscribed!</p>\n
 				</div>\n
-				<div id=\"rhd-mc-error-{$w_id}\" class=\"rhd-mc-error\">\n
+				<div id=\"rhd-mc-error-{$hash}\" class=\"rhd-mc-error\">\n
 					Please enter a valid email address.
 				</div>\n
 			</div>\n
@@ -76,7 +91,7 @@ function rhd_mailchimp( $args, $atts, $w_id = null ) {
 
 
 function rhd_mc_submit() {
-	$options = get_option( 'rhd_mc_settings' );
+	global $options;
 
 	$data = $_POST['data'];
 	$apikey = esc_attr( $options['rhd_mc_api_key'] );
@@ -97,7 +112,7 @@ function rhd_mc_submit() {
 		'status'		=> 'pending'
 	]);
 
-	if ( $api->errorCode ){
+	if ( $mc->errorCode ){
 		header( 'MailChimp error: ' . $mc->getLastError() );
 	}
 }
@@ -135,7 +150,7 @@ add_action( 'admin_init', 'rhd_mc_settings_init' );
 
 
 function rhd_mc_api_key_cb() {
-	$options = get_option( 'rhd_mc_settings' );
+	global $options;
 	$apikey = $options['rhd_mc_api_key'];
 
 	?>
