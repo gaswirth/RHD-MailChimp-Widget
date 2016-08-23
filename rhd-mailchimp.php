@@ -4,7 +4,7 @@
  * Author: Roundhouse Designs
  * Description: A MailChimp signup widget from Roundhouse Designs.
  * Author URI: https://roundhouse-designs.com
- * Version: 2.0.1
+ * Version: 2.0.2
  **/
 
 define( 'RHD_MC_DIR', plugin_dir_url( __FILE__ ) );
@@ -86,11 +86,6 @@ function rhd_mc_submit() {
 	$fname = ( ! empty( $data['fname'] ) ) ? $data['fname'] : null;
 	$lname = ( ! empty( $data['lname'] ) ) ? $data['lname'] : null;
 
-	$merge_vars = array();
-
-	$merge_vars['FNAME'] = $fname ? $fname : null;
-	$merge_vars['LNAME'] = $fname ? $lname : null;
-
 	$mc = new MailChimp( $apikey );
 
 	// By default this sends a confirmation email - you will not see new members
@@ -98,7 +93,8 @@ function rhd_mc_submit() {
 
 	$result = $mc->post( "lists/{$list_id}/members", [
 		'email_address'	=> $email,
-		'merge_fields'	=> ['FNAME'=>$fname, 'LNAME'=>$lname]
+		'merge_fields'	=> ['FNAME'=>$fname, 'LNAME'=>$lname],
+		'status'		=> 'pending'
 	]);
 
 	if ( $api->errorCode ){
