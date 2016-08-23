@@ -4,7 +4,7 @@
  * Author: Roundhouse Designs
  * Description: A MailChimp signup widget from Roundhouse Designs.
  * Author URI: https://roundhouse-designs.com
- * Version: 2.0-beta
+ * Version: 2.0.1
  **/
 
 define( 'RHD_MC_DIR', plugin_dir_url( __FILE__ ) );
@@ -144,7 +144,7 @@ function rhd_mc_api_key_cb() {
 
 	?>
 	<p>
-		<input type="text" id="rhd_mc_api_key" name="rhd_mc_settings[rhd_mc_api_key]" value="<?php echo esc_attr( $apikey ); ?>" />
+		<input type="text" id="rhd_mc_api_key" name="rhd_mc_settings[rhd_mc_api_key]" class="widefat" value="<?php echo esc_attr( $apikey ); ?>" />
 	</p>
 	<?php
 }
