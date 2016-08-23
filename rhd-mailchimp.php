@@ -4,47 +4,61 @@
  * Author: Roundhouse Designs
  * Description: A MailChimp signup widget from Roundhouse Designs.
  * Author URI: https://roundhouse-designs.com
- * Version: 2.0a
+ * Version: 2.0-beta
  **/
 
-define( 'RHD_MC_DIR', plugin_dir_url(__FILE__) );
+define( 'RHD_MC_DIR', plugin_dir_url( __FILE__ ) );
+define( 'RHD_MC_PATH', plugin_dir_path( __FILE__ ) );
+
+require_once( RHD_MC_PATH . '/vendor/autoload.php' );
+use \DrewM\MailChimp\MailChimp;
 
 
 /* ==========================================================================
 	Base Functionality
    ========================================================================== */
 
+
 function rhd_mailchimp( $args, $atts, $w_id = null ) {
 	extract( $args );
+	extract( $atts );
+
+	$button = $button ? esc_attr( $button ) : 'Submit';
+
 	$w_id = $w_id ? $w_id : rand( 101,200 );
 
 	$output = $before_widget;
 
 	$output .= "<div class=\"rhd-mailchimp-container\">\n";
 
-	if ( $atts['title'] )
-		$output .= $before_title . $atts['title'] . $after_title;
+	if ( $title )
+		$output .= $before_title . $title . $after_title;
 
 
 	$output .= "<div class=\"rhd-mailchimp clearfix\">\n";
 
-	if ( !empty( $atts['text'] ) )
-		$output .= "<p class=\"rhd-mc-text\">{$atts['text']}</p>\n";
+	if ( !empty( $text ) )
+		$output .= "<p class=\"rhd-mc-text\">{$text}</p>\n";
 
 	$output .= "
-				<form id=\"rhd-mc-subscribe-{$w_id}\" class=\"rhd-mc-subscribe clearfix\" action=\"" . RHD_MC_DIR . "lib/rhd-mc-subscribe.php\" method=\"post\">\n";
+				<form id=\"rhd-mc-subscribe-{$w_id}\" class=\"rhd-mc-subscribe clearfix\" action=\"#\" method=\"post\">\n";
 
-				if ( $atts['fname'] )
+				if ( $fname ) {
 					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" class=\"rhd-mc-fname\" type=\"text\" name=\"fname\" placeholder=\"First Name\">\n";
+				} else {
+					$output .= "<input id=\"rhd-mc-fname-{$w_id}\" type=\"hidden\" name=\"fname\" value=\"0\" >\n";
+				}
 
-				if ( $atts['lname'] )
+				if ( $lname ) {
 					$output .= "<input id=\"rhd-mc-lname-{$w_id}\" class=\"rhd-mc-lname\" type=\"text\" name=\"lname\" placeholder=\"Last Name\">\n";
-
+				} else {
+					$output .= "<input id=\"rhd-mc-lname-{$w_id}\" type=\"hidden\" name=\"lname\" value=\"0\" >\n";
+				}
 	$output .= "
 					<input id=\"rhd-mc-email-{$w_id}\" class=\"rhd-mc-email\" type=\"email\" name=\"email\" placeholder=\"Email\">\n
 					<input class=\"rhd-mc-form-id\" type=\"hidden\" value=\"{$w_id}\">\n
-					<input type=\"hidden\" name=\"list_id\" value=\"{$atts['list_id']}\" />
-					<input id=\"rhd-mc-submit-{$w_id}\" class=\"rhd-mc-submit\" type=\"submit\" value=\"{$atts['button']}\" name=\"submit-{$w_id}\">\n
+					<input id=\"rhd-mc-list-id-{$w_id}\" type=\"hidden\" name=\"list_id\" value=\"{$list_id}\" />
+					<input id=\"rhd-mc-submit-{$w_id}\" class=\"rhd-mc-submit\" type=\"submit\" value=\"{$button}\" name=\"submit-{$w_id}\">\n
 				</form>\n
 				<div id=\"rhd-mc-thanks-{$w_id}\" class=\"rhd-mc-thanks\">\n
 					<p>Subscribed!</p>\n
@@ -59,6 +73,40 @@ function rhd_mailchimp( $args, $atts, $w_id = null ) {
 
 	return $output;
 }
+
+
+function rhd_mc_submit() {
+	$options = get_option( 'rhd_mc_settings' );
+
+	$data = $_POST['data'];
+	$apikey = esc_attr( $options['rhd_mc_api_key'] );
+	$list_id = $data['list_id'];
+
+	$email = $data['email'];
+	$fname = ( ! empty( $data['fname'] ) ) ? $data['fname'] : null;
+	$lname = ( ! empty( $data['lname'] ) ) ? $data['lname'] : null;
+
+	$merge_vars = array();
+
+	$merge_vars['FNAME'] = $fname ? $fname : null;
+	$merge_vars['LNAME'] = $fname ? $lname : null;
+
+	$mc = new MailChimp( $apikey );
+
+	// By default this sends a confirmation email - you will not see new members
+	// until the link contained in it is clicked!
+
+	$result = $mc->post( "lists/{$list_id}/members", [
+		'email_address'	=> $email,
+		'merge_fields'	=> ['FNAME'=>$fname, 'LNAME'=>$lname]
+	]);
+
+	if ( $api->errorCode ){
+		header( 'MailChimp error: ' . $mc->getLastError() );
+	}
+}
+add_action( 'wp_ajax_rhd_mc_submit', 'rhd_mc_submit' );
+add_action( 'wp_ajax_nopriv_rhd_mc_submit', 'rhd_mc_submit' );
 
 
 /* ==========================================================================
@@ -137,6 +185,8 @@ class RHD_MailChimp extends WP_Widget {
 	public function display_styles() {
 		wp_enqueue_script( 'rhd-mailchimp-js', RHD_MC_DIR . 'js/rhd-mailchimp.js', array( 'jquery' ) );
 		wp_enqueue_style( 'rhd-mailchimp-css', RHD_MC_DIR . 'css/rhd-mailchimp.css' );
+
+		wp_localize_script( 'rhd-mailchimp-js', 'rhd_mc_ajax', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
 	public function update( $new_instance, $old_instance ) {
