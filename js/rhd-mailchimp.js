@@ -12,10 +12,10 @@
 	function mailChimpProcess( button ) {
 		var instance = $(button).siblings(".rhd-mc-form-id").val();
 
+		var listID = $("#rhd-mc-list-id-"+instance).val();
 		var fname = $("#rhd-mc-fname-"+instance).val();
 		var lname = $("#rhd-mc-lname-"+instance).val();
 		var email = $("#rhd-mc-email-"+instance).val();
-		var listID = $("#rhd-mc-list-id-"+instance).val();
 
 		var data = {
 			"email" : email,

@@ -1,4 +1,0 @@
-<Files rhd-mc-subscribe.php>
-order allow,deny
-allow from all
-</Files>

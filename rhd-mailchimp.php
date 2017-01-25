@@ -4,7 +4,7 @@
  * Author: Roundhouse Designs
  * Description: A MailChimp signup widget from Roundhouse Designs.
  * Author URI: https://roundhouse-designs.com
- * Version: 2.0.3
+ * Version: 3.0b
  **/
 
 /* ==========================================================================
@@ -14,8 +14,6 @@
 define( 'RHD_MC_DIR', plugin_dir_url( __FILE__ ) );
 define( 'RHD_MC_PATH', plugin_dir_path( __FILE__ ) );
 
-require_once( RHD_MC_PATH . '/vendor/autoload.php' );
-use \DrewM\MailChimp\MailChimp;
 
 $options = get_option( 'rhd_mc_settings' );
 
@@ -76,7 +74,7 @@ function rhd_mailchimp( $args, $atts, $hash = null ) {
 					<input id=\"rhd-mc-submit-{$hash}\" class=\"rhd-mc-submit\" type=\"submit\" value=\"{$button}\" name=\"submit-{$hash}\">\n
 				</form>\n
 				<div id=\"rhd-mc-thanks-{$hash}\" class=\"rhd-mc-thanks\">\n
-					<p>Subscribed!</p>\n
+					<p>Thanks for subscribing!</p>\n
 				</div>\n
 				<div id=\"rhd-mc-error-{$hash}\" class=\"rhd-mc-error\">\n
 					Please enter a valid email address.
@@ -94,27 +92,43 @@ function rhd_mc_submit() {
 	global $options;
 
 	$data = $_POST['data'];
-	$apikey = esc_attr( $options['rhd_mc_api_key'] );
+	$api_key = esc_attr( $options['rhd_mc_api_key'] );
+	$dc = substr( $api_key, strpos( $api_key, '-' ) +1 );
 	$list_id = $data['list_id'];
+
+	$url = 'https://' . $dc . '.api.mailchimp.com/3.0/lists/' . $list_id . '/members/' . md5( strtolower( $email) );
 
 	$email = $data['email'];
 	$fname = ( ! empty( $data['fname'] ) ) ? $data['fname'] : null;
 	$lname = ( ! empty( $data['lname'] ) ) ? $data['lname'] : null;
+	$status = 'pending'; // subscribed, unsubscribed, cleaned, pending
 
-	$mc = new MailChimp( $apikey );
+	$args = array(
+		'method' => 'PUT',
+		'headers' => array(
+			'Authorization' => 'Basic ' . base64_encode( 'user:'. $api_key )
+		),
+		'body' => json_encode( array(
+			'email_address' => $email,
+			'status'        => 'pending',
+			'merge_fields'	=> array(
+				'FNAME'		=> $fname,
+				'LNAME'		=> $lname
+			)
+		) )
+	);
 
-	// By default this sends a confirmation email - you will not see new members
-	// until the link contained in it is clicked!
+	$response = wp_remote_post( $url, $args );
 
-	$result = $mc->post( "lists/{$list_id}/members", [
-		'email_address'	=> $email,
-		'merge_fields'	=> ['FNAME'=>$fname, 'LNAME'=>$lname],
-		'status'		=> 'pending'
-	]);
+	$body = json_decode( $response['body'] );
 
-	if ( $mc->errorCode ){
-		header( 'MailChimp error: ' . $mc->getLastError() );
+/*
+	if ( $response['response']['code'] == 200 && $body->status == $status ) {
+		echo 'Thanks for subscribing' . $status . '.' ;
+	} else {
+		echo '<b>' . $response['response']['code'] . $body->title . ':</b> ' . $body->detail;
 	}
+*/
 }
 add_action( 'wp_ajax_rhd_mc_submit', 'rhd_mc_submit' );
 add_action( 'wp_ajax_nopriv_rhd_mc_submit', 'rhd_mc_submit' );
@@ -206,6 +220,10 @@ class RHD_MailChimp extends WP_Widget {
 	}
 
 	public function widget( $args, $instance ) {
+		if ( empty( $instance['list_id'] ) )
+			return;
+
+		$atts['list_id'] = ( ! empty( $instance['list_id'] ) ) ? $instance['list_id'] : false;
 		$atts['title'] = apply_filters( 'widget_title', $instance['title'] );
 		$atts['text'] = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
 		$atts['button'] = ( ! empty( $instance['button'] ) ) ? $instance['button'] : "Submit";
