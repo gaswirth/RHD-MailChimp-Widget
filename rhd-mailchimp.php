@@ -98,25 +98,15 @@ function rhd_mc_submit() {
 
 	$url = 'https://api.convertkit.com/v3/forms/' . $list_id . '/subscribe';
 
-	$body = array(
-		'api_key' => $api_key,
-		'email' => $email
-	);
-
 	$args = array(
 		'method' => 'POST',
-		'body' => json_encode( $body )
+		'body' => array(
+			'api_key' => $api_key,
+			'email' => $email
+		)
 	);
 
 	$response = wp_remote_post( $url, $args );
-/*
-	RESPONSE: API KEY NOT PRESENT
-
-	ob_start();
-	print_r( $response );
-	$str = ob_get_clean();
-	error_log( $str );
-*/
 
 	$body = json_decode( $response['body'] );
 
