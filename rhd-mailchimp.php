@@ -4,7 +4,7 @@
  * Author: Roundhouse Designs
  * Description: A MailChimp signup widget from Roundhouse Designs.
  * Author URI: https://roundhouse-designs.com
- * Version: 3.0.1b
+ * Version: 3.0.2b
  **/
 
 /* ==========================================================================
@@ -89,28 +89,29 @@ function rhd_mailchimp( $args, $atts, $hash = null ) {
 
 
 function rhd_mc_submit() {
-	global $options;
-
 	$data = $_POST['data'];
+	$options = get_option( 'rhd_mc_settings' );
+
 	$api_key = esc_attr( $options['rhd_mc_api_key'] );
+
 	$dc = substr( $api_key, strpos( $api_key, '-' ) +1 );
 	$list_id = $data['list_id'];
 	$email = $data['email'];
 
 	$url = 'https://' . $dc . '.api.mailchimp.com/3.0/lists/' . $list_id . '/members/' . md5( strtolower( $email) );
 
-	$fname = ( ! empty( $data['fname'] ) ) ? $data['fname'] : null;
-	$lname = ( ! empty( $data['lname'] ) ) ? $data['lname'] : null;
+	$fname = ( ! empty( $data['fname'] ) ) ? $data['fname'] : '';
+	$lname = ( ! empty( $data['lname'] ) ) ? $data['lname'] : '';
 	$status = 'pending'; // subscribed, unsubscribed, cleaned, pending
 
 	$body = array(
 		'email_address' => $email,
-		'status'        => 'pending'
+		'status'        => $status
 	);
-	
+
 	if ( $fname )
 		$body['merge_fields']['FNAME'] = $fname;
-	
+
 	if ( $lname )
 		$body['merge_fields']['LNAME'] = $lname;
 
@@ -119,7 +120,7 @@ function rhd_mc_submit() {
 		'headers' => array(
 			'Authorization' => 'Basic ' . base64_encode( 'user:'. $api_key )
 		),
-		'body' => json_encode( $body ) 
+		'body' => json_encode( $body )
 	);
 
 	$response = wp_remote_post( $url, $args );
@@ -168,7 +169,7 @@ add_action( 'admin_init', 'rhd_mc_settings_init' );
 
 
 function rhd_mc_api_key_cb() {
-	global $options;
+	$options = get_option('rhd_mc_settings');
 	$apikey = $options['rhd_mc_api_key'];
 
 	?>

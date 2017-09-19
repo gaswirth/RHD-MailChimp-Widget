@@ -13,9 +13,9 @@
 		var instance = $(button).siblings(".rhd-mc-form-id").val();
 
 		var listID = $("#rhd-mc-list-id-"+instance).val();
-		var fname = $("#rhd-mc-fname-"+instance).val();
-		var lname = $("#rhd-mc-lname-"+instance).val();
-		var email = $("#rhd-mc-email-"+instance).val();
+		var fname = ( $("#rhd-mc-fname-"+instance).val().length ) ? $("#rhd-mc-fname-"+instance).val() : null;
+		var lname = ( $("#rhd-mc-lname-"+instance).val().length ) ? $("#rhd-mc-lname-"+instance).val() : null;
+		var email = ( $("#rhd-mc-email-"+instance).val().length ) ? $("#rhd-mc-email-"+instance).val() : null;
 
 		var data = {
 			"email" : email,
@@ -38,7 +38,7 @@
 				success: function() {
 					$("#rhd-mc-error-"+instance).animate({opacity: 0});
 					$("#rhd-mc-email-"+instance).val("").animate({backgroundColor: $("#rhd-mc-email-"+instance).data("bg")});
-					$("#rhd-mc-thanks-"+instance).animate({'opacity': 1}, 'fast');
+					//$("#rhd-mc-thanks-"+instance).animate({'opacity': 1}, 'fast');
 				}
 			});
 		} else {
